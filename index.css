@@ -6,7 +6,13 @@
   box-sizing: border-box;
 }
 
-header {
+body {
+  background: light-dark(oklch(0.98 0.015 215), oklch(0.35 0.035 215));
+  color: light-dark(oklch(0.35 0.035 215), oklch(0.98 0.015 215));
+}
+
+header,
+footer {
   align-items: center;
   display: flex;
   gap: 8px;
@@ -21,10 +27,96 @@ header {
 
   h1 {
     flex: 1 0 min-content;
-    font-size: 2em;
+    max-width: max-content;
   }
+}
+
+footer {
+  font-size: 0.8em;
+  margin-top: 20px;
+}
+
+main,
+article {
+  margin: 0 auto;
+  max-width: 472px;
 }
 
 h1 {
   font-size: 2em;
+}
+
+hgroup {
+  h1 {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-top: 0;
+    font-size: 0.8em;
+  }
+}
+
+code,
+pre {
+  background: light-dark(oklch(0.82 0.0152 215), oklch(0.45 0.035 215));
+  padding: 4px;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+
+  code,
+  pre {
+    background: none;
+    padding: 0;
+  }
+}
+
+.badges {
+  display: grid;
+  gap: 8px;
+  grid: auto-flow 31px / repeat(auto-fill, 88px);
+
+  img {
+    display: block;
+    image-rendering: pixelated;
+    max-height: 31px;
+    max-width: 88px;
+  }
+}
+
+.badge:not(img) {
+  align-items: center;
+  background: #cccccc;
+  border: outset #eeeeee;
+  color: black;
+  display: flex;
+  height: 31px;
+  justify-content: center;
+  text-decoration: none;
+  text-shadow: 1px 1px white;
+  width: 88px;
+
+  &:hover:not(:active) {
+    filter: opacity(85%) contrast(75%);
+  }
+
+  &:active {
+    border-style: inset;
+  }
+}
+
+.badges img,
+.badge img,
+img.badge {
+  display: block;
+  image-rendering: pixelated;
+  max-height: 31px;
+  max-width: 88px;
+
+  &:hover {
+    filter: opacity(85%) contrast(75%);
+  }
 }
