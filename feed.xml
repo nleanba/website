@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>nleanba’s website</title>
+		<link>https://nleanba.helou.ch/</link>
+		<description>·_·</description>
+		<language>en</language>
+		<atom:link href="https://nleanba.helou.ch/feed.xml" rel="self" type="application/rss+xml" />
+
+		<item>
+			<title>New Website</title>
+			<pubDate>Wed, 21 May 2025 19:51 +0200</pubDate>
+			<guid isPermaLink="false">2025-05-01</guid>
+			<link>https://nleanba.helou.ch/txt/2025-05-21-new-website.html</link>
+			<description><![CDATA[
+				<article>
+				<hgroup>
+					<h1>New Website</h1>
+					<p>2025-05-21</p>
+				</hgroup>
+				<p>
+					I have decided to make a new website for myself.
+					I used to have a blog that was generated with hugo (and had a whooping 2 posts, both now moved here),
+					but I don't like markdown and am becoming less and less of a fan of anything that requires a build step.
+				<p>
+					So I am now writing a website directly in html.
+					It is currently very plain, but I plan on adding fancy css and some progressive-enhancement javascript.
+				<p>
+					In particular, my wishlist includes:
+				<ol>
+					<li> Syntax highlighting
+					<li> "Copy" button for code blocks
+					<li> a way to render equations, preferably using typst
+				</ol>
+				</article>
+			]]></description>
+		</item>
+
+		<item>
+			<title>Factorial by Proxy</title>
+			<pubDate>Tue, 16 Apr 2024 00:00 +0200</pubDate>
+			<guid isPermaLink="false">2024-04-16</guid>
+			<link>https://nleanba.helou.ch/txt/2024-04-16-factorial-by-proxy.html</link>
+			<description>...</description>
+		</item>
+
+		<item>
+			<title>Blocking the new .zip TLD on Fedora</title>
+			<pubDate>Sat, 20 May 2023 00:00 +0200</pubDate>
+			<guid isPermaLink="false">2023-05-20</guid>
+			<link>https://nleanba.helou.ch/txt/2023-05-20-blocking-zip-tld-on-fedora.html</link>
+			<description>...</description>
+		</item>
+
+	</channel>
+</rss>
