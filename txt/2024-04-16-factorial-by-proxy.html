@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang=en>
+<meta charset=utf-8>
+<meta name="color-scheme" content="dark light">
+<meta name="viewport" content="initial-scale=1,width=device-width">
+<meta name="author" content="nleanba">
+<meta name="generator" content="none, this was typed out by hand">
+<title>·_· Factorial by Proxy</title>
+<link rel="stylesheet" href="/index.css">
+<a href="/">↑ go home</a>
+<article>
+  <hgroup>
+    <h1>Factorial by Proxy</h1>
+    <p>2024-04-16</p>
+  </hgroup>
+  <p>
+    A cool snippet came up with for calculating recursively defined sequences
+    with built-in memoization.
+  </p>
+  <pre><code>const factorial = new Proxy([1], {
+    get(f, n) {
+      return f[n] ?? (f[n] = this.get(f, n-1) * n);
+    }
+});</code></pre>
+  <p>Use like this:</p>
+  <pre><code>factorial[0] // 1
+factorial[1] // 1
+factorial[2] // 2
+factorial[3] // 6
+             // ...</code></pre>
+  <h2>Explanation:</h2>
+  <p>
+    The proxy allows us to overwrite property access on the array using a
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get">custom
+      get function,</a>
+    which we <del>abuse</del> use here to get a seemingly infinite array
+    containig the entire sequence.
+  </p>
+  <p>
+    Within it, we can <em>set</em> and <em>get</em> properties of the underlying
+    array normally: <code>f[k] = 3</code> and <code>return f[n]</code> work as
+    expected (the array is available as <code>f</code>). However, for recursion
+    to work we want to use our new get, so we use <code>this.get(f, k)</code> to
+    call the our new getter recursively, calculating unknown
+    (<code>undefined</code>) values along the way.
+  </p>
+  <p>
+    Our get function does the follwing: if <code>f[n]</code> is already set—i.e.
+    not undefied (or false)—it is returned instantly. Otherwise, we calculate it
+    recursively, assign the calculated value to <code>f[n]</code> and return
+    that value.
+  </p>
+  <p>
+    Note that we don’t overwrite anything to do with iterators, so
+    <code>factorial.forEach(...)</code> will only iterate over previously
+    calulated values. If you want to be fancy, you could make it so that
+    iterating works, that the underlying array cannot be modified other than
+    from within the getter and maybe some handling for very large inputs or
+    inputs &lt; 0.
+  </p>
+  <p>
+    Judging by the
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get#browser_compatibility">browser
+      compatibility for handler.get() listed on mdn,</a>
+    this should work everywhere in browsers updated since 2016.
+  </p>
+  <h2>Other sequences:</h2>
+  <p>
+    Here’s how it looks for the fibonacci numbers:
+  </p>
+  <pre><code>const fibonacci = new Proxy([0,1], {
+    get(f, n) {
+      return f[n] ?? (f[n] = this.get(f, n-2) + this.get(f, n-1));
+    }
+});
+
+fibonacci[0] // 1
+fibonacci[1] // 1
+fibonacci[2] // 2
+fibonacci[3] // 5
+             // ...</code></pre>
+  <p>
+    Build your own:
+  </p>
+  <pre><code>const yourSequence = new Proxy([/* array containing the first elements of the sequence */], {
+    get(f, n) {
+      return f[n] ?? (f[n] = /* formula to caclulate the n-th element,
+                                use `this.get(f, k)` instead of `f[k]` or `yourSequence[k]` */);
+    }
+});</code></pre>
+</article>

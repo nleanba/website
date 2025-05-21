@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang=en>
+<meta charset=utf-8>
+<meta name="color-scheme" content="dark light">
+<meta name="viewport" content="initial-scale=1,width=device-width">
+<meta name="author" content="nleanba">
+<meta name="generator" content="none, this was typed out by hand">
+<title>·_· Blocking the new .zip TLD on Fedora</title>
+<link rel="stylesheet" href="/index.css">
+<a href="/">↑ go home</a>
+<article>
+  <hgroup>
+    <h1>Blocking the new .zip TLD on Fedora</h1>
+    <p>2023-05-20</p>
+  </hgroup>
+  <h2>Why:</h2>
+  <p>
+    Because it seems like it might provide some (idk) security benefits, and because
+    it seemed like an intersting exercise, I wanted to figure out how to block any
+    requests to a .zip url from my laptop.
+  </p>
+  <h2>How:</h2>
+  <p>Trying to do so using the bind-DNS server</p>
+  <ol>
+    <li>
+      <p>Installing bind:</p>
+      <pre><code>dnf install bind</code></pre>
+    </li>
+    <li>
+      <p>Updating/Creating various Config files:</p>
+      <ol>
+        <li>
+          <p>Adding a zip zone to <code>/etc/named.conf</code>:</p>
+          <pre><code>//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+options {
+	listen-on port 53 { 127.0.0.1; };
+	listen-on-v6 port 53 { ::1; };
+	directory 	"/var/named";
+	dump-file 	"/var/named/data/cache_dump.db";
+	statistics-file "/var/named/data/named_stats.txt";
+	memstatistics-file "/var/named/data/named_mem_stats.txt";
+	secroots-file	"/var/named/data/named.secroots";
+	recursing-file	"/var/named/data/named.recursing";
+	allow-query     { localhost; };
+
+	recursion yes;
+
+	dnssec-validation yes;
+	managed-keys-directory "/var/named/dynamic";
+	geoip-directory "/usr/share/GeoIP";
+
+	pid-file "/run/named/named.pid";
+	session-keyfile "/run/named/session.key";
+
+	/* https://fedoraproject.org/wiki/Changes/CryptoPolicy */
+	include "/etc/crypto-policies/back-ends/bind.config";
+
+	/* nope -- pointless */
+	// response-policy { zone "zip"; };
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+// This is new:
+zone "zip" IN {
+	type master;
+	file "zip-rpz";
+	allow-update { none; };
+};
+
+zone "." IN {
+	type hint;
+	file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
+</code></pre>
+        </li>
+        <li>
+          <p>Added <code>/var/named/zip-rpz</code>:</p>
+          <pre><code>$TTL 1D ; default expiration time of all RRs without their own TTL value
+@       IN  SOA     ns.zip. postmaster.ns.zip. ( 2020091025 7200 3600 1209600 3600 )
+@       IN  NS      ns                     ; nameserver
+*       IN  A       127.0.0.1              ; localhost
+        IN  AAAA    ::                     ; localhost
+</code></pre>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <p>Apply temporarily</p>
+      <pre><code>sudo systemctl enable named
+sudo service named restart
+resolvectl dns wlp0s20f3 127.0.0.1
+</code></pre>
+      <aside>Note: this applies it <em>very</em> temporarily (ca 2 mins, idk why)</aside>
+      <p>Various other commands, some useful:</p>
+      <pre><code>journalctl -xeu named.service
+
+dig url.zip
+dig example.com
+
+# ??
+sudo firewall-cmd --add-service=dns --perm
+sudo firewall-cmd --reload
+
+# ??
+sudo chgrp named -R /var/named
+sudo chown -v root:named /etc/named.conf
+sudo restorecon -rv /var/named
+sudo restorecon /etc/named.conf
+</code></pre>
+    </li>
+    <li>
+      <p>Apply persistently</p>
+      <pre><code># ...
+[Resolve]
+# ... add the following line inside the [Resolve] section:
+DNS=127.0.0.1
+# ...</code></pre>
+      <p>After rebooting, it now “fails” to resolve any .zip url.<br>They are redirected to <code>127.0.0.1</code> (or
+        <code>::</code>) where nobody is listening…
+      </p>
+    </li>
+    <li>
+      <p><del>Profit</del></p>
+    </li>
+  </ol>
+</article>

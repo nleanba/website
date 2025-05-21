@@ -1,0 +1,30 @@
+:root {
+  color-scheme: light dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+
+  img {
+    flex: 0 1 256px;
+    max-height: 256px;
+    min-width: 2em;
+  }
+
+  h1 {
+    flex: 1 0 min-content;
+    font-size: 2em;
+  }
+}
+
+h1 {
+  font-size: 2em;
+}
