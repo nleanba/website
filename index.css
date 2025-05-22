@@ -39,7 +39,8 @@ footer {
 main,
 article {
   margin: 0 auto;
-  max-width: 472px;
+  /* max-width: 472px; */
+  max-width: 450px;
 }
 
 h1 {
@@ -76,7 +77,8 @@ pre {
 
 .badges {
   display: grid;
-  gap: 8px;
+  /* gap: 8px; */
+  gap: 2px;
   grid: auto-flow 31px / repeat(auto-fill, 88px);
 
   img {
@@ -93,11 +95,15 @@ pre {
   border: outset #eeeeee;
   color: black;
   display: flex;
+  font-size: 11px;
   height: 31px;
   justify-content: center;
+  line-height: 11px;
+  text-align: center;
   text-decoration: none;
   text-shadow: 1px 1px white;
   width: 88px;
+  word-break: break-word;
 
   &:hover:not(:active) {
     filter: opacity(85%) contrast(75%);
