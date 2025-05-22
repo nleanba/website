@@ -13,26 +13,27 @@
 			<guid isPermaLink="false">2025-05-01</guid>
 			<link>https://nleanba.helou.ch/txt/2025-05-21-new-website.html</link>
 			<description><![CDATA[
-				<article>
-				<hgroup>
-					<h1>New Website</h1>
-					<p>2025-05-21</p>
-				</hgroup>
-				<p>
-					I have decided to make a new website for myself.
-					I used to have a blog that was generated with hugo (and had a whooping 2 posts, both now moved here),
-					but I don't like markdown and am becoming less and less of a fan of anything that requires a build step.
-				<p>
-					So I am now writing a website directly in html.
-					It is currently very plain, but I plan on adding fancy css and some progressive-enhancement javascript.
-				<p>
-					In particular, my wishlist includes:
-				<ol>
-					<li> Syntax highlighting
-					<li> "Copy" button for code blocks
-					<li> a way to render equations, preferably using typst
-				</ol>
-				</article>
+<article>
+  <hgroup>
+    <h1>New Website</h1>
+    <p>2025-05-21</p>
+  </hgroup>
+  <p>
+    I have decided to make a new website for myself.
+    I used to have a blog that was generated with hugo (and had a whooping 2 posts, both now moved here),
+    but I don't like markdown and am becoming less and less of a fan of anything that requires a build step.
+  <p>
+    So I am now writing a website directly in html.
+    This was prompted by the general state of the world, and <a href="https://lmnt.me/blog/how-to-make-a-damn-website.html">a post on LMNT</a>.
+    It is currently very plain, but I plan on adding fancy css and some progressive-enhancement javascript.
+  <p>
+    In particular, my wishlist includes:
+  <ol>
+    <li> Syntax highlighting
+    <li> "Copy" button for code blocks
+    <li> a way to render equations, preferably using typst
+  </ol>
+</article>
 			]]></description>
 		</item>
 
@@ -41,7 +42,90 @@
 			<pubDate>Tue, 16 Apr 2024 00:00 +0200</pubDate>
 			<guid isPermaLink="false">2024-04-16</guid>
 			<link>https://nleanba.helou.ch/txt/2024-04-16-factorial-by-proxy.html</link>
-			<description>...</description>
+			<description><![CDATA[
+<article>
+  <hgroup>
+    <h1>Factorial by Proxy</h1>
+    <p>2024-04-16</p>
+  </hgroup>
+  <p>
+    A cool snippet came up with for calculating recursively defined sequences
+    with built-in memoization.
+  </p>
+  <pre><code>const factorial = new Proxy([1], {
+    get(f, n) {
+      return f[n] ?? (f[n] = this.get(f, n-1) * n);
+    }
+});</code></pre>
+  <p>Use like this:</p>
+  <pre><code>factorial[0] // 1
+factorial[1] // 1
+factorial[2] // 2
+factorial[3] // 6
+             // ...</code></pre>
+  <h2>Explanation:</h2>
+  <p>
+    The proxy allows us to overwrite property access on the array using a
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get">custom
+      get function,</a>
+    which we <del>abuse</del> use here to get a seemingly infinite array
+    containig the entire sequence.
+  </p>
+  <p>
+    Within it, we can <em>set</em> and <em>get</em> properties of the underlying
+    array normally: <code>f[k] = 3</code> and <code>return f[n]</code> work as
+    expected (the array is available as <code>f</code>). However, for recursion
+    to work we want to use our new get, so we use <code>this.get(f, k)</code> to
+    call the new getter recursively, calculating unknown
+    (<code>undefined</code>) values along the way.
+  </p>
+  <p>
+    Our get function does the following: if <code>f[n]</code> is already set—i.e.
+    not undefined (or false)—it is returned instantly. Otherwise, we calculate it
+    recursively, assign the calculated value to <code>f[n]</code> and return
+    that value.
+  </p>
+  <p>
+    Note that we don’t overwrite anything to do with iterators, so
+    <code>factorial.forEach(...)</code> will only iterate over previously
+    calculated values. If you want to be fancy, you could make it so that
+    iterating works, that the underlying array cannot be modified other than
+    from within the getter and maybe some handling for very large inputs or
+    inputs &lt; 0.
+  </p>
+  <p>
+    Judging by the
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get#browser_compatibility">browser
+      compatibility for handler.get() listed on mdn</a>,
+    this should work everywhere in browsers updated since 2016.
+  </p>
+  <h2>Other sequences:</h2>
+  <p>
+    Here’s how it looks for the Fibonacci numbers:
+  </p>
+  <pre><code>const fibonacci = new Proxy([0,1], {
+    get(f, n) {
+      return f[n] ?? (f[n] = this.get(f, n-2) + this.get(f, n-1));
+    }
+});
+
+fibonacci[0] // 1
+fibonacci[1] // 1
+fibonacci[2] // 2
+fibonacci[3] // 5
+             // ...</code></pre>
+  <p>
+    Build your own:
+  </p>
+  <pre><code>const yourSequence = new Proxy([/* array containing the first elements of the sequence */], {
+    get(f, n) {
+      return f[n] ?? (f[n] = /* formula to calculate the n-th element,
+                                use `this.get(f, k)` instead of `f[k]` or `yourSequence[k]` */);
+    }
+});</code></pre>
+</article>
+			]]></description>
 		</item>
 
 		<item>
@@ -49,7 +133,142 @@
 			<pubDate>Sat, 20 May 2023 00:00 +0200</pubDate>
 			<guid isPermaLink="false">2023-05-20</guid>
 			<link>https://nleanba.helou.ch/txt/2023-05-20-blocking-zip-tld-on-fedora.html</link>
-			<description>...</description>
+			<description><![CDATA[
+<article>
+  <hgroup>
+    <h1>Blocking the new .zip TLD on Fedora</h1>
+    <p>2023-05-20</p>
+  </hgroup>
+  <h2>Why:</h2>
+  <p>
+    Because it seems like it might provide some (idk) security benefits, and because
+    it seemed like an intersting exercise, I wanted to figure out how to block any
+    requests to a .zip url from my laptop.
+  </p>
+  <h2>How:</h2>
+  <p>Trying to do so using the bind-DNS server</p>
+  <ol>
+    <li>
+      <p>Installing bind:</p>
+      <pre><code>dnf install bind</code></pre>
+    </li>
+    <li>
+      <p>Updating/Creating various Config files:</p>
+      <ol>
+        <li>
+          <p>Adding a zip zone to <code>/etc/named.conf</code>:</p>
+          <pre><code>//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+options {
+	listen-on port 53 { 127.0.0.1; };
+	listen-on-v6 port 53 { ::1; };
+	directory 	"/var/named";
+	dump-file 	"/var/named/data/cache_dump.db";
+	statistics-file "/var/named/data/named_stats.txt";
+	memstatistics-file "/var/named/data/named_mem_stats.txt";
+	secroots-file	"/var/named/data/named.secroots";
+	recursing-file	"/var/named/data/named.recursing";
+	allow-query     { localhost; };
+
+	recursion yes;
+
+	dnssec-validation yes;
+	managed-keys-directory "/var/named/dynamic";
+	geoip-directory "/usr/share/GeoIP";
+
+	pid-file "/run/named/named.pid";
+	session-keyfile "/run/named/session.key";
+
+	/* https://fedoraproject.org/wiki/Changes/CryptoPolicy */
+	include "/etc/crypto-policies/back-ends/bind.config";
+
+	/* nope -- pointless */
+	// response-policy { zone "zip"; };
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+// This is new:
+zone "zip" IN {
+	type master;
+	file "zip-rpz";
+	allow-update { none; };
+};
+
+zone "." IN {
+	type hint;
+	file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
+</code></pre>
+        </li>
+        <li>
+          <p>Added <code>/var/named/zip-rpz</code>:</p>
+          <pre><code>$TTL 1D ; default expiration time of all RRs without their own TTL value
+@       IN  SOA     ns.zip. postmaster.ns.zip. ( 2020091025 7200 3600 1209600 3600 )
+@       IN  NS      ns                     ; nameserver
+*       IN  A       127.0.0.1              ; localhost
+        IN  AAAA    ::                     ; localhost
+</code></pre>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <p>Apply temporarily</p>
+      <pre><code>sudo systemctl enable named
+sudo service named restart
+resolvectl dns wlp0s20f3 127.0.0.1
+</code></pre>
+      <aside>Note: this applies it <em>very</em> temporarily (ca 2 mins, idk why)</aside>
+      <p>Various other commands, some useful:</p>
+      <pre><code>journalctl -xeu named.service
+
+dig url.zip
+dig example.com
+
+# ??
+sudo firewall-cmd --add-service=dns --perm
+sudo firewall-cmd --reload
+
+# ??
+sudo chgrp named -R /var/named
+sudo chown -v root:named /etc/named.conf
+sudo restorecon -rv /var/named
+sudo restorecon /etc/named.conf
+</code></pre>
+    </li>
+    <li>
+      <p>Apply persistently</p>
+      <pre><code># ...
+[Resolve]
+# ... add the following line inside the [Resolve] section:
+DNS=127.0.0.1
+# ...</code></pre>
+      <p>After rebooting, it now “fails” to resolve any .zip url.<br>They are redirected to <code>127.0.0.1</code> (or
+        <code>::</code>) where nobody is listening…
+      </p>
+    </li>
+    <li>
+      <p><del>Profit</del></p>
+    </li>
+  </ol>
+</article>
+			]]></description>
 		</item>
 
 	</channel>
