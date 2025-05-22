@@ -117,7 +117,7 @@ pre {
   }
 
   &:active {
-    border-style: inset;
+    border-color: black white white black;
   }
 }
 
