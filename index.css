@@ -86,29 +86,23 @@ pre {
     display: flex;
     justify-content: center;
   }
-
-  img {
-    display: block;
-    image-rendering: pixelated;
-    max-height: 31px;
-    max-width: 88px;
-  }
 }
 
 .badge:not(img) {
   align-items: center;
   background: #cccccc;
   border: 2px solid;
-  border-color: white black black white;
+  border-color: #ffffff7e #0000007e #0000007e #ffffff7e;
   color: black;
   display: flex;
   font-size: 11px;
+  font-weight: 600;
   height: 31px;
   justify-content: center;
   line-height: 11px;
   text-align: center;
   text-decoration: none;
-  text-shadow: 0.7px 0.7px white;
+  text-shadow: 0.7px 0.7px #ffffff7e;
   width: 88px;
   word-break: break-word;
 
@@ -117,7 +111,7 @@ pre {
   }
 
   &:active {
-    border-color: black white white black;
+    border-color: #0000007e #ffffff7e #ffffff7e #0000007e;
   }
 }
 
@@ -125,7 +119,7 @@ pre {
 .badge img,
 img.badge {
   display: block;
-  image-rendering: pixelated;
+  /* image-rendering: pixelated; */
   max-height: 31px;
   max-width: 88px;
 
