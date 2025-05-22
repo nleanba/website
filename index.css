@@ -81,6 +81,12 @@ pre {
   gap: 2px;
   grid: auto-flow 31px / repeat(auto-fill, 88px);
 
+  a {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
   img {
     display: block;
     image-rendering: pixelated;
@@ -92,7 +98,8 @@ pre {
 .badge:not(img) {
   align-items: center;
   background: #cccccc;
-  border: outset #eeeeee;
+  border: 2px solid;
+  border-color: white black black white;
   color: black;
   display: flex;
   font-size: 11px;
@@ -101,7 +108,7 @@ pre {
   line-height: 11px;
   text-align: center;
   text-decoration: none;
-  text-shadow: 1px 1px white;
+  text-shadow: 0.7px 0.7px white;
   width: 88px;
   word-break: break-word;
 
