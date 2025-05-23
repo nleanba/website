@@ -40,7 +40,7 @@ main,
 article {
   margin: 0 auto;
   /* max-width: 472px; */
-  max-width: 450px;
+  max-width: 540px;
 }
 
 h1 {
@@ -119,7 +119,7 @@ pre {
 .badge img,
 img.badge {
   display: block;
-  /* image-rendering: pixelated; */
+  image-rendering: pixelated;
   max-height: 31px;
   max-width: 88px;
 
