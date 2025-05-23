@@ -127,3 +127,44 @@ img.badge {
     filter: opacity(85%) contrast(75%);
   }
 }
+
+#nowplaying {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 16px auto;
+  max-width: 540px;
+
+  & > a {
+    border: 1px solid light-dark(oklch(0.35 0.035 215), oklch(0.98 0.015 215));
+    color: inherit;
+    display: grid;
+    grid: 13px 17px / 34px auto;
+    gap: 4px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 2px;
+    text-decoration: none;
+    text-wrap: nowrap;
+    min-width: 200px;
+    max-width: 100%;
+
+    img {
+      grid-row: span 2;
+    }
+
+    span {
+      align-self: end;
+      font-size: 9px;
+      line-height: 9px;
+      padding-right: 4px;
+    }
+
+    span + span {
+      align-self: start;
+      font-size: 13px;
+      line-height: 13px;
+    }
+  }
+}
