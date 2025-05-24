@@ -9,6 +9,7 @@
 body {
   background: light-dark(oklch(0.98 0.015 215), oklch(0.35 0.035 215));
   color: light-dark(oklch(0.35 0.035 215), oklch(0.98 0.015 215));
+  font-family: Inter, "Inter V", "Helvetica Neue", Helvetica, Aptos, Arial, sans-serif
 }
 
 header,
@@ -61,7 +62,7 @@ hgroup {
 code,
 pre {
   background: light-dark(oklch(0.82 0.0152 215), oklch(0.45 0.035 215));
-  padding: 4px;
+  padding: 2px;
 }
 
 pre {
@@ -86,6 +87,10 @@ aside {
   font-style: oblique;
   margin-block: 1em;
   padding-inline: 1em;
+}
+
+.index {
+  font-variant-numeric: tabular-nums;
 }
 
 .badges {
