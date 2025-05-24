@@ -9,6 +9,47 @@
 
 		<item>
 			<title>New Website</title>
+			<pubDate>Sat, 24 May 2025 18:33 +0200</pubDate>
+			<guid isPermaLink="false">2025-05-24</guid>
+			<link>https://nleanba.helou.ch/txt/2025-05-24-pdf-templates.html</link>
+			<description><![CDATA[
+<article>
+  <hgroup>
+    <h1>PDF Templates</h1>
+    <p>2025-05-24</p>
+  </hgroup>
+  <p>
+    I like to take handwritten notes for my classes.
+    (I use Goodnotes for this.)
+  <p>
+    A while ago, I made these templates for me to write on, in an effort to make my notes look better and more consistent.
+    They might be useful for other people too…
+  <aside>I generated them with a python script that places the lines on the page in a loop. It is not elegant enough for me to share here.</aside>
+  <ul>
+    <li><a href="https://nleanba.helou.ch/misc/Legal+ Yellow A4.pdf">Yellow A4</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+ Yellow A4.pdf" title="Yellow A4 PDF" type="application/pdf">
+    <li><a href="https://nleanba.helou.ch/misc/Legal+ White A4.pdf">White A4</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+ White A4.pdf" title="White A4 PDF" type="application/pdf">
+    <li><a href="https://nleanba.helou.ch/misc/Legal+ Yellow A5.pdf">Yellow A5</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+ Yellow A5.pdf" title="Yellow A5 PDF" type="application/pdf">
+    <li><a href="https://nleanba.helou.ch/misc/Legal+ White A5.pdf">White A5</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+ White A5.pdf" title="White A5 PDF" type="application/pdf">
+    <li><a href="https://nleanba.helou.ch/misc/Legal+Grid Yellow A4.pdf">Yellow A4 with square grid</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+Grid Yellow A4.pdf" title="Yellow A4 PDF with grid" type="application/pdf">
+    <li><a href="https://nleanba.helou.ch/misc/Legal+Grid Yellow A5.pdf">Yellow A5 with square grid</a>
+      <embed src="https://nleanba.helou.ch/misc/Legal+Grid Yellow A5.pdf" title="Yellow A5 PDF with grid" type="application/pdf">
+  </ul>
+  <p> Some Examples how this looks when I take notes:
+  <div>
+    <img style="width: 100%;" alt="(Example image showing my notes on some math exercise sheet)" src="https://nleanba.helou.ch/img/pdf-template-example-1.png">
+    <img style="width: 100%;" alt="(Example image showing my notes on a geometry class)" src="https://nleanba.helou.ch/img/pdf-template-example-2.png">
+  </div>
+</article>
+			]]></description>
+		</item>
+
+		<item>
+			<title>New Website</title>
 			<pubDate>Wed, 21 May 2025 19:51 +0200</pubDate>
 			<guid isPermaLink="false">2025-05-01</guid>
 			<link>https://nleanba.helou.ch/txt/2025-05-21-new-website.html</link>

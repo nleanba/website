@@ -75,6 +75,19 @@ pre {
   }
 }
 
+embed {
+  display: block;
+  min-height: 200px;
+  width: 100%;
+}
+
+aside {
+  font-size: 0.8em;
+  font-style: oblique;
+  margin-block: 1em;
+  padding-inline: 1em;
+}
+
 .badges {
   display: grid;
   /* gap: 8px; */
@@ -168,3 +181,4 @@ img.badge {
     }
   }
 }
+
